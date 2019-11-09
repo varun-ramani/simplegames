@@ -9,7 +9,7 @@ Snake::Snake(sf::RenderWindow* window, sf::RectangleShape* border) {
     for (int i = 0; i < 5; i++) {
 
         sf::CircleShape newShape(10.f);
-        newShape.setFillColor(sf::Color::White);
+        newShape.setFillColor(sf::Color::Green);
         newShape.setPosition(i * 20 + 60.f, 60.f);
 
         segments.push_back(newShape);
@@ -51,19 +51,19 @@ void Snake::move() {
     }
 
     if (segments[numSegs - 1].getPosition().x >= border->getGlobalBounds().width+20) {
-        printf("Collided with wall\n");
+        printf("Collided with wall - total score %d\n", getSegs());
         window->close();
     }
     if (segments[numSegs - 1].getPosition().x < 40) {
-        printf("Collided with wall\n");
+        printf("Collided with wall - total score %d\n", getSegs());
         window->close();
     }
     if (segments[numSegs - 1].getPosition().y < 40) {
-        printf("Collided with wall\n");
+        printf("Collided with wall - total score %d\n", getSegs());
         window->close();
     }
     if (segments[numSegs - 1].getPosition().y >= border->getGlobalBounds().height+20) {
-        printf("Collided with wall\n");
+        printf("Collided with wall - total score %d\n", getSegs());
         window->close();
     }
 }
@@ -80,7 +80,7 @@ void Snake::eat() {
     sf::CircleShape currentEnding = segments.back();
     move();
     sf::CircleShape newShape(10.f);
-    newShape.setFillColor(sf::Color::White);
+    newShape.setFillColor(sf::Color::Green);
     newShape.setPosition(currentEnding.getPosition().x, currentEnding.getPosition().y);
     segments.push_back(newShape);
 }

@@ -1,0 +1,112 @@
+% Created 2019-11-03 Sun 15:54
+% Intended LaTeX compiler: pdflatex
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage{grffile}
+\usepackage{longtable}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{textcomp}
+\usepackage{amssymb}
+\usepackage{capt-of}
+\usepackage{hyperref}
+\author{Varun Ramani}
+\date{\today}
+\title{}
+\hypersetup{
+ pdfauthor={Varun Ramani},
+ pdftitle={},
+ pdfkeywords={},
+ pdfsubject={},
+ pdfcreator={Emacs 26.3 (Org mode 9.1.9)}, 
+ pdflang={English}}
+\begin{document}
+
+\tableofcontents
+
+\#include <SFML/Window.hpp>
+\#include <SFML/Graphics.hpp>
+\#include <iostream>
+
+\#include "snake.h"
+\#include "food.h"
+
+int waittime = 300;
+
+void checkControls(Snake* snake) \{
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) \{
+        snake->setDirection('R');
+    \}
+
+if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) \{
+    snake->setDirection('L');
+\}
+
+if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) \{
+    snake->setDirection('D');
+\}
+
+if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) \{
+    snake->setDirection('U');
+\}
+
+if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) \{
+    waittime = 15;
+\} else \{
+    waittime = (500 / snake->getSegs()) + 10;
+\}
+
+\}
+
+int main(int argc, char const *argv[])
+\{
+    sf::RenderWindow window(sf::VideoMode(1000, 1000), "Snake");
+
+sf::RectangleShape border(sf::Vector2f(800.f,800.f));
+border.setPosition(40.f, 40.f);
+border.setOutlineThickness(2.f);
+border.setFillColor(sf::Color::Transparent);
+
+sf::Font font;
+font.loadFromFile("operatormono.otf");
+
+Snake snake(\&window, \&border);
+Food food(\&window, \&snake);
+
+sf::Clock clock;
+
+while (window.isOpen()) \{
+    sf::Event event;
+
+if (clock.getElapsedTime().asMilliseconds() > waittime) \{
+    clock.restart();
+    snake.move();
+\}
+
+while (window.pollEvent(event)) \{
+    switch (event.type) \{
+        case sf::Event::Closed:
+            window.close();
+            break;
+    \}
+\}
+
+window.clear(sf::Color::Black);
+
+checkControls(\&snake);
+
+snake.draw();
+window.draw(border);
+food.draw();
+food.checkEaten();
+
+    window.display();
+\}
+
+    return 0;
+\}
+\end{document}
