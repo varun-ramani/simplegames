@@ -4,12 +4,19 @@
 #include <iostream>
 #include "ship.h"
 
+
+Ship player1(sf::Color::Blue, 10, 10);
+
+void controls() {
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
+        
+    }
+}
+
 int main(int argc, char const *argv[])
 {
 
     std::cout << "Let's play Yeetships!" << std::endl;
-
-    Ship player1(sf::Color::Blue, 10, 10);
 
     while (window.isOpen()) {
         sf::Event event;
